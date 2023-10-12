@@ -1,12 +1,18 @@
 /* eslint-disable react/prop-types */
-const Task = ({ taskName, state,description, onTaskFinished }) => {
+const Task = ({ taskName, state,description, onTaskFinished, onTaskDelete }) => {
     const handleTaskClick = () => {
       onTaskFinished();
       
     };
+
+
+    const handleTaskClickDelete = () => {
+      onTaskDelete();
+      
+    };
   
     const taskStyle = {
-      textDecoration: state ? 'line-through' : 'none',
+      textDecoration: state ? 'none' : 'line-through',
     };
   
     return (
@@ -15,12 +21,12 @@ const Task = ({ taskName, state,description, onTaskFinished }) => {
           type="checkbox"
           value={taskName}
           onClick={handleTaskClick}
-          disabled={state}
         />
         <label htmlFor={taskName} style={taskStyle}>
           {taskName}
         </label>
         <p>{description}</p>
+        <button onClick={handleTaskClickDelete}>DELETE</button>
       </>
     );
   };

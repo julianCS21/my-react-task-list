@@ -1,64 +1,53 @@
-import { useEffect, useState } from "react"
+import {useState} from "react"
 import Task from "./Task"
+import { useTasks } from "../hooks/useTasks"
 
 const TaskList = () =>{
 
+    const [tasks,createTask,deleteTask,updatedTask] = useTasks();
+    const [name,setName] = useState('');
+    const [description,setDescription] = useState('');
 
-    const [tasks,setTasks] = useState([
-        {
-            name:"Buy a new laptop",
+
+    const handleInputNameChange = (event) => {
+        setName(event.target.value);
+    };
+
+
+
+    const handleInputDescriptionChange = (event) => {
+        setDescription(event.target.value);
+    };
+
+
+
+    function create(){
+        const newTask = {
+            name:name,
             state:false,
-            description : "Is a first task"
-
-        },
-        {
-            name:"Complete a previous task",
-            state:false,
-            description : "Is a second task"
-
-
-        },
-        {
-            name:"Create a video of youtube",
-            state:false,
-            description : "Is a  task"
+            description : description
 
         }
 
-    ])
+        createTask(newTask)
 
 
-    const taskFinished = (index) =>{
-        const newTasks = [...tasks]
-        newTasks[index].state = true;
-        setTasks(newTasks);
-        const listJson =  JSON.stringify(newTasks);
-        localStorage.setItem("tasks", listJson);
-
-        
 
     }
-
-    useEffect(()=>{
-        const listaJSON = localStorage.getItem("tasks");
-        const miLista = JSON.parse(listaJSON);
-        if(miLista){
-            setTasks(miLista)
-        }
-
-        
-
-    },[tasks])
 
 
     return (
         <div>
             {tasks.map((item,index) => (
                 <div key={index}>
-                    <Task taskName={item.name} state={item.state}  description={item.description} onTaskFinished={() =>{taskFinished(index)}}></Task>
+                    <Task taskName={item.name} state={item.state}  description={item.description} onTaskFinished={() =>{updatedTask(index)}} onTaskDelete={() =>{deleteTask(index)}}></Task>
                 </div>
             )
             )}
+            <input placeholder="task name" onChange={handleInputNameChange} value={name}></input>
+            <input placeholder="task description" onChange={handleInputDescriptionChange} value={description}></input>
+            <button onClick={create}>CREATE TASK</button>
+
 
         </div>
     )
