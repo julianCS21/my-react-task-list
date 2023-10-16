@@ -4,6 +4,7 @@ import { BrowserRouter,Route, Routes } from "react-router-dom";
 import {Home} from "./pages/Home";
 import { AboutUs } from "./pages/AboutUs";
 import { Main } from "./components/Main";
+import { ChakraProvider } from '@chakra-ui/react'
 
 function AppRouter() {
   return (
@@ -23,9 +24,12 @@ function AppRouter() {
 function App() {
   return (
     <div>
+      <ChakraProvider>
       <BrowserRouter>
         <AppRouter />
       </BrowserRouter>
+      </ChakraProvider>
+      
     </div>
   );
 
